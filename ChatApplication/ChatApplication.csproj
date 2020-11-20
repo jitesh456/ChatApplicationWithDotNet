@@ -10,7 +10,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChatApplicationDotNet\ChatApplicationRepositor.csproj" />
+    <ProjectReference Include="..\ChatApplicationServiceLayer\ChatApplicationServiceLayer.csproj" />
+    <ProjectReference Include="..\ChatModelLayer\ChatModelLayer.csproj" />
   </ItemGroup>
 
 </Project>
