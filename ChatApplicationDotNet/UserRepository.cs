@@ -52,5 +52,35 @@ namespace ChatApplicationDotNet
             }
             return false;
         }
+
+        public Boolean UserLogin(Login login)
+        {
+            try
+            {
+                con = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("spUserLogin", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Email", login.Email);
+                cmd.Parameters.AddWithValue("@Password", login.Password);
+                
+                con.Open();
+
+                int result = cmd.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return false;
+        }
     }
 }

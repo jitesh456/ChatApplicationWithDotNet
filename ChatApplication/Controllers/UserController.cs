@@ -6,6 +6,7 @@ using ChatApplicationServiceLayer;
 using ChatModelLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace ChatApplication.Controllers
 {
@@ -23,9 +24,51 @@ namespace ChatApplication.Controllers
 
         // POST api/UserDetails
         [HttpPost]
-        public void Post([FromBody] UserDetails userDetails)
+        public ActionResult<Boolean> Post([FromBody] UserDetails userDetails)
         {
-            userService.AddUser(userDetails);
+            bool result= userService.AddUser(userDetails);
+            if (result)
+            {
+                return this.Ok(new Response()
+                {
+                    StateCode =HttpStatusCode.OK,
+                    Message = "Registered Successfully"
+                });
+            }
+            else
+            {
+                return this.BadRequest(new Response()
+                {
+                    StateCode = HttpStatusCode.BadRequest,
+                    Message = "Failed To Registered"
+                });
+
+            }
+
+            
+        }
+
+        [HttpPost("/login")]
+        public ActionResult<String> Login([FromBody] Login login) {
+            string result=userService.UserLogin(login);
+            if (result.Length>2)
+            {
+                return this.Ok(new Response()
+                {
+                    StateCode = HttpStatusCode.OK,
+                    Message = "Login Successfully",
+                    Data = result
+                });
+            }
+            else
+            {
+                return this.BadRequest(new Response()
+                {
+                    StateCode = HttpStatusCode.BadRequest,
+                    Message = "Login To Registered"
+                });
+
+            }
         }
 
     }
